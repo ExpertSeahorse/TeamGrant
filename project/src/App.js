@@ -5,6 +5,8 @@ import Inventory from './Inventory';
 import Catalog from './Catalog';
 import './App.css';
 
+// "main"
+
 /* 
 Add invoices tab:
   Process order

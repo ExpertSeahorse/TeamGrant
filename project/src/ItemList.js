@@ -1,5 +1,6 @@
 import React from 'react'
 
+// Builds the Inventory table in HTML by converting a table of IDs to a table of pieces of furnisher
 export default function ItemList({ items }) {
   const catalog = require("./data/catalog.json")
   return (
