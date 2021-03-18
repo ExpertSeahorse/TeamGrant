@@ -1,5 +1,7 @@
 import React from 'react'
 
+// Displays the links at the top of the page
+
 function navbar(props) {
   return (
     <div className='navbar'>
