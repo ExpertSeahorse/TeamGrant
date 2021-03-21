@@ -6,7 +6,7 @@ import Catalog from './Catalog';
 import './App.css';
 
 // "main"
-// git testing
+
 /* 
 Add invoices tab:
   Process order
