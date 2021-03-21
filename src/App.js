@@ -2,8 +2,9 @@ import React, { useState, useEffect, useRef } from 'react'
 import Header from './Header'
 import { stringify, v4 as uuidv4 } from 'uuid';
 import Inventory from './Inventory';
-import Catalog from './Catalog';
+import { Table, Catalog } from './Catalog';
 import './App.css';
+//import Catalog from './Catalog';
 
 // "main"
 
@@ -13,6 +14,7 @@ Add invoices tab:
   Adjust inventory
 */
 
+// Build the webpage by combining components
 function App() {
   const [page, setPage] = useState('i')
 
@@ -30,7 +32,8 @@ function App() {
       <Header showInventory={showInventory} showCatalog={showCatalog}/>
     </header>
     <body>
-    {page === 'i' ? <Inventory /> : <Catalog />}
+    {/* {page === 'i' ? <Inventory /> : <Table data={Catalog} />} */}
+      <Table data={Catalog} />
     </body>
     </>
   )

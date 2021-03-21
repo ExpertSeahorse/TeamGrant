@@ -41,8 +41,15 @@ export default function Inventory() {
       <button onClick={handleAddItem}>Add Item</button>
       <button onClick={handleClearItems}>Clear Items</button>
       <table>
-        <tr><th>Item Type</th><th>Color</th></tr>
-        <ItemList items={items}/>
+        <thead>
+          <tr>
+            <th>Item Type</th>
+            <th>Color</th>
+          </tr>
+        </thead>
+        <tbody>
+          <ItemList items={items}/>
+        </tbody> 
       </table>
     </div>
   )
