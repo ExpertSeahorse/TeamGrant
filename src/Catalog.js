@@ -1,118 +1,119 @@
-import React from 'react'
+import React, { useState } from 'react'
 //import { render } from 'react-dom'
 import CatalogItem from './CatalogItem'
 
-// set types of sort
-const sortTypes = {
-  itemTypeUp: {
-    class: 'itemTypeUp',   // function name
-    fn: (a,b) =>{        // function equation
-      if (a.itemType.toUpperCase() < b.itemType.toUpperCase()){
-        return 1
-      }
-      else if (a.id.toUpperCase() < b.id.toUpperCase()){
-        return -1
-      }
-      else
-        return 0
+// Create sorted data
+const useSortableData = (items, config = null) => {
+  // sortConfig remembers the current sort pattern
+  const [sortConfig, setSortConfig] = React.useState(config);
+  
+  // memoize the sorting algo so if the table is rerendered the sort is not recalculated
+  const sortedItems = React.useMemo(() => {
+    // copy the items arr to maintain the orig
+    let sortableItems = [...items];
+    // if sortConfig exists:
+    if (sortConfig !== null) {
+      // sort the table by a's key and b's key and direction. key + direction are set in requestSort
+      sortableItems.sort((a, b) => {
+        if (a[sortConfig.key] < b[sortConfig.key]) {
+          return sortConfig.direction === 'ascending' ? -1 : 1;
+        }
+        if (a[sortConfig.key] > b[sortConfig.key]) {
+          return sortConfig.direction === 'ascending' ? 1 : -1;
+        }
+        return 0;
+      });
     }
-  },
-  itemTypeDown: {
-    class: 'itemTypeDown',
-    fn: (a,b) =>{        // function equation
-      if (a.itemType.toUpperCase() < b.itemType.toUpperCase()){
-        return -1
-      }
-      else if (a.id.toUpperCase() < b.id.toUpperCase()){
-        return 1
-      }
-      else
-        return 0
+    return sortableItems;
+  }, [items, sortConfig]);
+
+  // set the value of the config with input from button 
+  const requestSort = key => {
+    let direction = 'ascending';
+    // if already ascending and previous sort was the same key, swap to decending
+    if (
+      sortConfig && 
+      sortConfig.key === key && 
+      sortConfig.direction === 'ascending'
+    ) {
+      direction = 'descending';
     }
-  },
-  default: {
-    class: 'sort',
-    fn: (a,b) => a.id.toUpperCase() < b.id.toUpperCase()
+    // set SortConfig to key, direction
+    setSortConfig({ key, direction });
   }
-};
 
-//const catalog = require('./data/catalog.json')
-//console.log(Object.keys(catalog))
-
-class Table extends React.Component{
-  // set default state
-  state = {
-    currentSort : 'default'
-  };
-
-  // Switch the sort of the table based on the current sort
-  onSortChange = () => {
-		const { currentSort } = this.state;
-		let nextSort;
-    
-    switch(currentSort){
-      case 'itemTypeUp':
-        nextSort = 'itemTypeDown'
-        break;
-      case 'itemTypeDown':
-        nextSort = 'itemTypeUp'
-        break;
-      default:
-        nextSort = 'itemTypeDown'
-    }
-
-		this.setState({
-			currentSort: nextSort
-		});
-	};
-
-  render(){
-    //const { data } = Object.keys(catalog);
-    const catalog = require('./data/catalog.json')
-    const data = Object(catalog)
-    const { currentSort } = this.state;
-    console.log(sortTypes[currentSort].fn)
-    console.log(catalog)
-    console.log([...data].sort(sortTypes[currentSort].fn))
-    return (
-      // make sure data populates
-      data.length > 0 && (
-        <table>
-          <thead>
-            <tr>
-              <th onClick={this.onSortChange}>ID</th>
-              <th onClick={this.onSortChange}>Item Type</th>
-              <th onClick={this.onSortChange}>Color</th>
-            </tr>
-          </thead>
-          <tbody> {
-              // Sort the keys in the catalog and loop over the catalog object and match each entry to a row in the Table
-              [...data].sort(sortTypes[currentSort].fn).map(p => (
-                <tr>
-                  <td>{p.id}</td>
-                  <td>{p.itemType}</td>
-                  <td>{p.color}</td>
-                </tr>
-              ))}
-          </tbody>
-      </table>
-      )
-    );
-  }
+  return { items: sortedItems, requestSort, sortConfig  };
 }
 
+//input props: array
+const CatalogTable = (props) => {
+  // get data + sort it w/ above process
+  const { items, requestSort, sortConfig } = useSortableData(props.products);
+  
+  // for styling later
+  const getClassNamesFor = (name) => {
+    if (!sortConfig) {
+      return;
+    }
+    return sortConfig.key === name ? sortConfig.direction : undefined;
+  };
+  
+  return (
+    <table>
+      <caption>Catalog</caption>
+      <thead>
+        <tr>
+          <th>
+            {/* Table Headers */}
+            ID
+            <button
+              type="button" 
+              onClick={() => requestSort('id')}
+              className={getClassNamesFor('id')}>
+              {getClassNamesFor('id')}
+            </button>
+          </th>
+          <th>
+            Item Type
+            <button 
+            type="button" 
+            onClick={() => requestSort('itemType')}
+            className={getClassNamesFor('itemType')}>
+            {getClassNamesFor('itemType')}
+            </button>
+          </th>
+          <th>
+            Color
+            <button 
+            type="button" 
+            onClick={() => requestSort('color')}
+            className={getClassNamesFor('color')}>
+            {getClassNamesFor('color')}
+            </button>
+          </th>
+        </tr>
+      </thead>
+      <tbody>{ 
+        // Loop over the sorted list and make a row in the Table for each item
+        items.map(p => <CatalogItem value={p}/> )
+        }
+      </tbody>
+    </table>
+  );
+}
 
-function Catalog() {
+export default function Catalog() {
   const catalog = require('./data/catalog.json')
-  console.log(Object.keys(catalog))
+  console.log(catalog)
 
   // Print the html representation of the Catalog JSON
   // The Catalog is a lookup table for the Inventory. To add an item to the inventory, just input the ID + Qty and the properties will be populated
 
-  
-  return catalog;
-}
-export {
-  Table,
-  Catalog
+  return (
+    <div className="App">
+      <CatalogTable
+        products={catalog}
+      />
+    </div>
+  );
 }
