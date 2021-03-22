@@ -3,6 +3,7 @@ import CatalogItem from './CatalogItem'
 
 export default function Catalog() {
   const catalog = require('./data/catalog.json')
+  console.log(Object.keys(catalog))
 
   // Print the html representation of the Catalog JSON
   // The Catalog is a lookup table for the Inventory. To add an item to the inventory, just input the ID + Qty and the properties will be populated
