@@ -11,10 +11,6 @@ import './App.css';
 Add invoices tab:
   Process order
   Adjust inventory
-Catalog:
-  Add item
-Inventory:
-  Add quantity field
 */
 
 function App() {
