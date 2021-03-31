@@ -1,12 +1,10 @@
-[
-  {
-    "id": "ABC",
+{
+  "ABC":{
     "itemType":"Couch",
     "color":"Red"
   },
-  {
-    "id": "CBD",
-    "itemType":"Armchair",
+  "CBD":{
+    "itemType":"Chair",
     "color":"Purple"
   }
-]
+}

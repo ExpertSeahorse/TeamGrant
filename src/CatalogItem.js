@@ -4,9 +4,9 @@ import React from 'react'
 export default function CatalogItem(props) {
   return (
       <tr>
-        <td>{props.value.id}</td>
-        <td>{props.value.itemType}</td>
-        <td>{props.value.color}</td>
+        <td>{props.value[0]}</td>
+        <td>{props.value[1].itemType}</td>
+        <td>{props.value[1].color}</td>
       </tr>
   )
 }
