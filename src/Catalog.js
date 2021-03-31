@@ -77,28 +77,28 @@ const CatalogTable = (props) => {
                         {/* Table Headers */}
                         ID
                         <button
-                        type="button" 
-                        onClick={() => requestSort('id')}
-                        className={getClassNamesFor('id')}>
-                        {getClassNamesFor('id')}
+                          type="button" 
+                          onClick={() => requestSort('id')}
+                          className={getClassNamesFor('id')}>
+                          {getClassNamesFor('id')}
                         </button>
                     </th>
                     <th>
                         Item Type
                         <button 
-                        type="button" 
-                        onClick={() => requestSort('itemType')}
-                        className={getClassNamesFor('itemType')}>
-                        {getClassNamesFor('itemType')}
+                          type="button" 
+                          onClick={() => requestSort('itemType')}
+                          className={getClassNamesFor('itemType')}>
+                          {getClassNamesFor('itemType')}
                         </button>
                     </th>
                     <th>
                         Color
                         <button 
-                        type="button" 
-                        onClick={() => requestSort('color')}
-                        className={getClassNamesFor('color')}>
-                        {getClassNamesFor('color')}
+                          type="button" 
+                          onClick={() => requestSort('color')}
+                          className={getClassNamesFor('color')}>
+                          {getClassNamesFor('color')}
                         </button>
                     </th>
                 </tr>
