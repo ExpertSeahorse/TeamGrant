@@ -1,15 +1,59 @@
-import useSortableData from './SortAlgo'
+//import useSortableData from './SortAlgo'
+import React from 'react'
 
+// Create sorted data
+const useSortableData = (items, config = null) => {
+    // sortConfig remembers the current sort pattern
+    const [sortConfig, setSortConfig] = React.useState(config);
+    
+    // memoize the sorting algo so if the table is rerendered the sort is not recalculated
+    const sortedItems = React.useMemo(() => {
+      // copy the items arr to maintain the orig
+      let sortableItems = [...items];
+      // if sortConfig exists:
+      if (sortConfig !== null) {
+        // sort the table by a's key and b's key and direction. key + direction are set in requestSort
+        sortableItems.sort((a, b) => {
+          if (a[sortConfig.key] < b[sortConfig.key]) {
+            return sortConfig.direction === 'ascending' ? -1 : 1;
+          }
+          if (a[sortConfig.key] > b[sortConfig.key]) {
+            return sortConfig.direction === 'ascending' ? 1 : -1;
+          }
+          return 0;
+        });
+      }
+      return sortableItems;
+    }, [items, sortConfig]);
+  
+    // set the value of the config with input from button 
+    const requestSort = key => {
+      let direction = 'ascending';
+      // if already ascending and previous sort was the same key, swap to decending
+      if (
+        sortConfig && 
+        sortConfig.key === key && 
+        sortConfig.direction === 'ascending'
+      ) {
+        direction = 'descending';
+      }
+      // set SortConfig to key, direction
+      setSortConfig({ key, direction });
+    }
+  
+    return { items: sortedItems, requestSort, sortConfig  };
+}
 // creates a row in the Catalog table, assuming the catalog is passed as an Object.entities(dict)
-function CatalogItem(props) {
+/* function CatalogItem(p) {
+  console.log(p)
   return (
-      <tr key={props.value[0]}>
-        <td>{props.value[0]}</td>
-        <td>{props.value[1].itemType}</td>
-        <td>{props.value[1].color}</td>
+      <tr key={p[0]}>
+        <td>{p[0]}</td>
+        <td>{p[1].itemType}</td>
+        <td>{p[1].color}</td>
       </tr>
   )
-}
+} */
 
 //input props: array
 const CatalogTable = (props) => {
@@ -59,9 +103,14 @@ const CatalogTable = (props) => {
                     </th>
                 </tr>
             </thead>
-            <tbody>{ 
-                // Loop over the sorted list and make a row in the Table for each item
-                items.map(p => <CatalogItem value={p}/> )
+            <tbody>{ // Loop over the sorted list and make a row in the Table for each item
+              items.map(p => (
+                <tr key={p[0]}>
+                  <td>{p[0]}</td>
+                  <td>{p[1].itemType}</td>
+                  <td>{p[1].color}</td>
+                </tr>
+              ))
             }
             </tbody>
         </table>
@@ -70,7 +119,7 @@ const CatalogTable = (props) => {
 
 export default function Catalog() {
   const catalog = require('./data/catalog.json')
-  //console.log(Object.entries(catalog))
+  console.log(Object.entries(catalog))
 
   // Print the html representation of the Catalog JSON
   // The Catalog is a lookup table for the Inventory. To add an item to the inventory, just input the ID + Qty and the properties will be populated

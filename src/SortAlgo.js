@@ -1,4 +1,4 @@
-import React from 'react'
+/* import React from 'react'
 
 // Create sorted data
 export default (items, config = null) => {
@@ -41,4 +41,4 @@ export default (items, config = null) => {
     }
   
     return { items: sortedItems, requestSort, sortConfig  };
-}
+} */
