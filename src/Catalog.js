@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 //import { render } from 'react-dom'
 import CatalogItem from './CatalogItem'
 
@@ -104,7 +104,7 @@ const CatalogTable = (props) => {
 
 export default function Catalog() {
   const catalog = require('./data/catalog.json')
-  console.log(Object.entries(catalog))
+  //console.log(Object.entries(catalog))
 
   // Print the html representation of the Catalog JSON
   // The Catalog is a lookup table for the Inventory. To add an item to the inventory, just input the ID + Qty and the properties will be populated

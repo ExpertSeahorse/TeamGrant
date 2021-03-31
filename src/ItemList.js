@@ -9,12 +9,8 @@ export default function ItemList({ items }) {
       else
         return(
           <tr>
-            <td>{
-              catalog[item.id].itemType
-            }</td>
-            <td>{
-              catalog[item.id].color
-            }</td>
+            <td>{catalog[item.id].itemType}</td>
+            <td>{catalog[item.id].color}</td>
           </tr>
         ) 
     })
