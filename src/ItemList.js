@@ -7,7 +7,12 @@ export default function ItemList({ items }) {
     items.map(item => {
       if(catalog[item.id] === undefined) return
       else
-        return <tr><td>{catalog[item.id].itemType}</td><td>{catalog[item.id].color}</td></tr>
+        return(
+          <tr>
+            <td>{catalog[item.id].itemType}</td>
+            <td>{catalog[item.id].color}</td>
+          </tr>
+        ) 
     })
   )
 }
