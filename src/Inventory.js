@@ -2,14 +2,15 @@
 import React from 'react'
 
 // Create sorted data
-const useSortableData = (items, config = null) => {
+const useSortableData = (s_items, config = null) => {
     // InventorySortConfig remembers the current sort pattern
     const [InventorySortConfig, setInventorySortConfig] = React.useState(config);
     
     // memoize the sorting algo so if the table is rerendered the sort is not recalculated
     const sortedItems = React.useMemo(() => {
-      // copy the items arr to maintain the orig
-      let sortableItems = [...items];
+      if (Object.keys(s_items).length === 0) return
+      // copy the s_items arr to maintain the orig
+      let sortableItems = [...s_items];
       // if InventorySortConfig exists:
       if (InventorySortConfig !== null) {
         // sort the table by a's key and b's key and direction. key + direction are set in requestSort
@@ -24,7 +25,7 @@ const useSortableData = (items, config = null) => {
         });
       }
       return sortableItems;
-    }, [items, InventorySortConfig]);
+    }, [s_items, InventorySortConfig]);
   
     // set the value of the config with input from button 
     const requestSort = key => {
@@ -41,7 +42,7 @@ const useSortableData = (items, config = null) => {
       setInventorySortConfig({ key, direction });
     }
   
-    return { items: sortedItems, requestSort, InventorySortConfig  };
+    return { s_items: sortedItems, requestSort, InventorySortConfig  };
 }
 
 const LOCAL_STORAGE_KEY = 'itemsDB'
@@ -77,40 +78,33 @@ export default function Inventory() {
     setItems([])
   }
 
-  // Convert items into an array of array elements
+  // Convert items into an array of objects
   function InventoryList({ items }) {
     const catalog = require("./data/catalog.json")
-    let i = 0
+    
+    // create an array representation of the items object
     let temp = items.map(item => {
-      if(catalog[item.id] === undefined) return
+      if(catalog[item.id] === undefined) return undefined
       else
         return( [item.id, catalog[item.id].itemType, catalog[item.id].color] )
     })
-    console.log(temp)
-    return (
-      temp
-    )
-    
+    if (temp === []) return
+
+    let inv = []
+    // convert the array into and array of objects
+    temp.forEach(p => {
+      inv.push({
+        id: p[0],
+        itemType: p[1],
+        color: p[2]
+      })
+    });
+    return inv
   }
   
-  function InventoryItem(props) {
-    props = props.value
-    console.log(props)
-    if (props[items] == []){
-      return (
-        <tr key={props[0]}>
-          {/*<td>{props[0]}</td>*/}
-          <td>{props[1]}</td>
-          <td>{props[2]}</td>
-        </tr>
-      )
-    } 
-    else
-      return null
-}
   const InventoryTable = (props) => {
     // get data + sort it w/ above process
-    const { items, requestSort, InventorySortConfig } = useSortableData(props.products);
+    const { s_items, requestSort, InventorySortConfig } = useSortableData(props.products);
   
     // for styling later
     const getClassNamesFor = (name) => {
@@ -119,7 +113,41 @@ export default function Inventory() {
         }
         return InventorySortConfig.key === name ? InventorySortConfig.direction : undefined;
     };
-  
+    
+    //console.log(s_items)
+    if (s_items === undefined) return (
+      <div>
+        <input ref={addIDRef} type="text"/>
+        <button onClick={handleAddItem}>Add Item</button>
+        <button onClick={handleClearItems}>Clear Items</button>
+        <table>
+          <caption>Inventory</caption>
+          <thead>
+              <tr key={"Inventory Header"}>
+                  <th>
+                      {/* Table Headers */}
+                      Item Type
+                      <button
+                      type="button" 
+                      onClick={() => requestSort('id')}
+                      className={getClassNamesFor('id')}>
+                      {getClassNamesFor('id')}
+                      </button>
+                  </th>
+                  <th>
+                      Color
+                      <button 
+                      type="button" 
+                      onClick={() => requestSort('itemType')}
+                      className={getClassNamesFor('itemType')}>
+                      {getClassNamesFor('itemType')}
+                      </button>
+                  </th>
+              </tr>
+          </thead>
+        </table>
+      </div>
+    )
     return (
       <div>
         <input ref={addIDRef} type="text"/>
@@ -152,7 +180,12 @@ export default function Inventory() {
             </thead>
             <tbody>{ 
                 // Loop over the sorted list and make a row in the Table for each item
-                items.map(p => <InventoryItem value={p}/> )
+                s_items.map(p =>(
+                  <tr key={p.id}>
+                    <td>{p.itemType}</td>
+                    <td>{p.color}</td>
+                  </tr>
+                ))
             }</tbody>
         </table>
       </div>

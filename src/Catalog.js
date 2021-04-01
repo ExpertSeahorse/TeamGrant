@@ -118,6 +118,8 @@ const CatalogTable = (props) => {
 }
 
 export default function Catalog() {
+  // Convert catalog object into the style:
+  // {id:xxx, itemType:xxx, color:xxx}
   const catalog = require('./data/catalog.json')
   const cata = Object.entries(catalog)
   console.log(cata)

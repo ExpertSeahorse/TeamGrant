@@ -1,6 +1,6 @@
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useState } from 'react'
 import Header from './Header'
-import { stringify, v4 as uuidv4 } from 'uuid';
+//import { stringify, v4 as uuidv4 } from 'uuid';
 import Inventory from './Inventory';
 import Catalog from './Catalog';
 import './App.css';
