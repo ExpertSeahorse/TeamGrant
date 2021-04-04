@@ -1,12 +1,12 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import Header from './Header'
-//import { stringify, v4 as uuidv4 } from 'uuid';
 import Inventory from './Inventory';
 import Catalog from './Catalog';
+import Invoices from './Invoices';
 import './App.css';
 //import Catalog from './Catalog';
 
-// "main"
+const LOCAL_STORAGE_KEY = 'pageDB'
 
 /* 
 Add invoices tab:
@@ -14,13 +14,22 @@ Add invoices tab:
   Adjust inventory
 Catalog:
   Add item
-Inventory:
-  Add quantity field
 */
 
 // Build the webpage by combining components
 export default function App() {
   const [page, setPage] = useState('i')
+
+  // initial load page
+  useEffect(() => {
+    const storedPage = localStorage.getItem(LOCAL_STORAGE_KEY)
+    if (storedPage) setPage(storedPage)
+  }, [])
+
+  // If page changes, update local storage
+  useEffect(() => {
+    localStorage.setItem(LOCAL_STORAGE_KEY, page)
+  }, [page])
 
   function showInventory() {
     setPage('i')
@@ -29,15 +38,19 @@ export default function App() {
   function showCatalog(){
     setPage('c')
   }
+  
+  function showInvoices(){
+    setPage('in')
+  }
 
   return (
     <>
     <header>
-      <Header showInventory={showInventory} showCatalog={showCatalog}/>
+      <Header showInventory={showInventory} showCatalog={showCatalog} showInvoices={showInvoices}/>
     </header>
-    <body>
-      {page === 'i' ? <Inventory /> : <Catalog />}
-    </body>
+    <div>
+      {page === 'i' ? <Inventory key={'i'}/> : page === 'c' ? <Catalog key={'c'}/> : <Invoices key={'in'}/>}
+    </div>
     </>
   )
 }

@@ -117,6 +117,8 @@ const CatalogTable = (props) => {
     );
 }
 
+// Print the html representation of the Catalog JSON
+// The Catalog is a lookup table for the Inventory. To add an item to the inventory, just input the ID + Qty and the properties will be populated
 export default function Catalog() {
   // Convert catalog object into the style:
   // {id:xxx, itemType:xxx, color:xxx}
@@ -133,9 +135,6 @@ export default function Catalog() {
   })
 
   console.log(prods)
-
-  // Print the html representation of the Catalog JSON
-  // The Catalog is a lookup table for the Inventory. To add an item to the inventory, just input the ID + Qty and the properties will be populated
 
   return (
     <div className="App">
