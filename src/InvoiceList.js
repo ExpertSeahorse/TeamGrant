@@ -2,7 +2,7 @@ import React from 'react'
 import Invoice from "./Invoice";
 
 // returns Invoice table
-export default function InvoiceList({ invoices }) {
+export default function InvoiceList( props ) {
   return (
     <table>
     <tr>
@@ -12,7 +12,7 @@ export default function InvoiceList({ invoices }) {
       <th>Status</th>
       <th>Quantity</th>
     </tr>
-    {invoices.map(invoiceData => { return <Invoice key={invoiceData.id} data={invoiceData}/> })}
+    {props.invoices.map(invoiceData => { return <Invoice key={invoiceData.id} data={invoiceData} handleStatusChange={props.handleStatusChange}/> })}
     </table>
   )
 }

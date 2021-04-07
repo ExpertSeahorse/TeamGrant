@@ -46,22 +46,14 @@ const useSortableData = (s_items, config = null) => {
     return { s_items: sortedItems, requestSort, InventorySortConfig  };
 }
 
-const LOCAL_STORAGE_KEY = 'itemsDB'
-
 // Print the html representation of the Inventory JSON
-export default function Inventory() {
-  const [items, setItems] = React.useState([])
+export default function Inventory( props ) {
+  const [items, setItems] = React.useState(props.inventory)
   const addIDRef = React.useRef()
-
-  // initial load items
-  React.useEffect(() => {
-    const storedItems = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY))
-    if (storedItems) setItems(storedItems)
-  }, [])
 
   // If items changes, update local storage
   React.useEffect(() => {
-    localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(items))
+    props.updateInventory(items)
   }, [items])
 
   // Adds the text in the textbox to the items state

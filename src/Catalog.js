@@ -119,14 +119,13 @@ const CatalogTable = (props) => {
 
 // Print the html representation of the Catalog JSON
 // The Catalog is a lookup table for the Inventory. To add an item to the inventory, just input the ID + Qty and the properties will be populated
-export default function Catalog() {
+export default function Catalog( props ) {
   // Convert catalog object into the style:
   // {id:xxx, itemType:xxx, color:xxx}
-  const catalog = require('./data/catalog.json')
-  const cata = Object.entries(catalog)
-  console.log(cata)
+  const catalog = Object.entries(props.catalog)
+  console.log(catalog)
   let prods = []
-  cata.forEach(p => {
+  catalog.forEach(p => {
     prods.push({
       id: p[0],
       itemType: p[1].itemType,
