@@ -1,4 +1,3 @@
-//import useSortableData from './SortAlgo'
 import React from 'react'
 
 // Create sorted data
@@ -43,17 +42,6 @@ const useSortableData = (items, config = null) => {
   
     return { items: sortedItems, requestSort, CatalogSortConfig  };
 }
-// creates a row in the Catalog table, assuming the catalog is passed as an Object.entities(dict)
-/* function CatalogItem(p) {
-  console.log(p)
-  return (
-      <tr key={p[0]}>
-        <td>{p[0]}</td>
-        <td>{p[1].itemType}</td>
-        <td>{p[1].color}</td>
-      </tr>
-  )
-} */
 
 //input props: array
 const CatalogTable = (props) => {
@@ -123,7 +111,6 @@ export default function Catalog( props ) {
   // Convert catalog object into the style:
   // {id:xxx, itemType:xxx, color:xxx}
   const catalog = Object.entries(props.catalog)
-  console.log(catalog)
   let prods = []
   catalog.forEach(p => {
     prods.push({
@@ -133,7 +120,6 @@ export default function Catalog( props ) {
     })
   })
 
-  console.log(prods)
 
   return (
     <div className="App">

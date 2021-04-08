@@ -144,7 +144,6 @@ export default function Inventory( props ) {
         return InventorySortConfig.key === name ? InventorySortConfig.direction : undefined;
     };
     
-    //console.log(s_items)
     if (s_items === undefined) return (
       <div>
         <input ref={addIDRef} type="text"/>

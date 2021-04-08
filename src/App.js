@@ -40,9 +40,7 @@ export default function App() {
 
   // update function so that inventory can be passed to multiple components
   function updateInventory(newInventory) {
-    console.log("im here")
     setInventory(newInventory)
-    console.log(inventory)
 
   }
 
