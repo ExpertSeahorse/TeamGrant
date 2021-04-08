@@ -1,6 +1,7 @@
 import React, { useRef, useState, useEffect } from 'react'
 import ItemList from './ItemList'
 
+
 const LOCAL_STORAGE_KEY = 'itemsDB'
 
 // Print the html representation of the Inventory JSON

@@ -6,5 +6,9 @@
   "CBD":{
     "itemType":"Chair",
     "color":"Purple"
+  },
+  "DEF":{
+    "itemType":"Chair",
+    "color":"Yellow"
   }
 }

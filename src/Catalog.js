@@ -1,5 +1,6 @@
 import React from 'react'
 import CatalogItem from './CatalogItem'
+import './mystyle.module.css'
 
 export default function Catalog() {
   const catalog = require('./data/catalog.json')
