@@ -1,6 +1,5 @@
 //import useSortableData from './SortAlgo'
 import React from 'react'
-import CatalogItem from './CatalogItem'
 import './mystyle.module.css'
 
 // Create sorted data
