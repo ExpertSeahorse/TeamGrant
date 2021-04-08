@@ -12,6 +12,9 @@ function navbar(props) {
         <li>
           <a onClick={props.showCatalog}>Catalog</a>
         </li>
+        <li>
+          <a onClick={props.showInvoices}>Invoices</a>
+        </li>
       </ul>
     </div>
   );
