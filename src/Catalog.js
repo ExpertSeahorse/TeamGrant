@@ -1,6 +1,7 @@
 //import useSortableData from './SortAlgo'
 import React from 'react'
 import './mystyle.module.css'
+import {printQuery} from './DataBase'
 
 // Create sorted data
 const useSortableData = (items, config = null) => {
@@ -109,24 +110,28 @@ const CatalogTable = (props) => {
 
 // Print the html representation of the Catalog JSON
 // The Catalog is a lookup table for the Inventory. To add an item to the inventory, just input the ID + Qty and the properties will be populated
-export default function Catalog( props ) {
+export default function Catalog( props ) {  
   // Convert catalog object into the style:
   // {id:xxx, itemType:xxx, color:xxx}
-  const catalog = Object.entries(props.catalog)
-  let prods = []
-  catalog.forEach(p => {
-    prods.push({
-      id: p[0],
-      itemType: p[1].itemType,
-      color: p[1].color
-    })
+  // const catalog = Object.entries(props.catalog)
+  // let prods = []
+  // catalog.forEach(p => {
+  //   prods.push({
+  //     id: p[0],
+  //     itemType: p[1].itemType,
+  //     color: p[1].color
+  //   })
+  // })
+  let catalog = []
+  const r = printQuery('SELECT * FROM public.\"Inventory\"')
+  r.then(function(result){
+    catalog = result.rows
   })
 
-
-  return (
+  return ( 
     <div className="App">
       <CatalogTable
-        products={prods}
+        products={catalog}
       />
     </div>
   );
