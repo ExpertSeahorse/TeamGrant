@@ -1,6 +1,6 @@
 import React, { useRef, useState, useEffect } from 'react'
 import InvoiceList from './InvoiceList'
-import './Input_Fields'
+import './Input_Fields.css'
 
 const LOCAL_STORAGE_KEY_INVOICES = 'invoiceDB'
 
