@@ -1,0 +1,17 @@
+﻿input[type=text] {
+    border: .5px solid black;
+    border-radius: 4px;
+    margin: 3px;
+}
+label {
+    font-family: Georgia, Times, serif;
+    color: white;
+}
+input[type=checkbox] {
+    border: 3px solid black;
+    border-radius: 4px;
+    margin:3px;
+}
+button {
+    margin: 2px;
+}
