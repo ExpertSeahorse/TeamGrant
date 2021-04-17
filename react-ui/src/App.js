@@ -5,7 +5,7 @@ import './App.css';
 //import FetchInventory from "./components/FetchInventory";
 
 const api = axios.create({
-  baseURL: 'http://localhost:9000'
+  baseURL: 'http://172.28.76.141:9000/'
 })
 
 let mode = true
