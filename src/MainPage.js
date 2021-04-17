@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react'
-import Header from './Header'
-import Inventory from './Inventory';
-import Catalog from './Catalog';
-import Invoices from './InvoicesTab';
+import MainHeader from './MainHeader'
+import Login from './Login';
+import Home from './Home';
 import './App.css';
 
 const LOCAL_STORAGE_KEY_PAGE = 'pageDB'
@@ -16,7 +15,7 @@ Add invoices tab:
 
 // Build the webpage by combining components
 export default function MainPage() {
-  const [page, setPage] = useState('i')
+  const [page, setPage] = useState('l')
   const [inventory, setInventory] = useState([])
 
   const catalog = require("./data/catalog.json")
@@ -43,41 +42,33 @@ export default function MainPage() {
     setInventory(newInventory)
 
   }
-
-  function showInventory() {
-    setPage('i')
+  function showLogin(){
+    setPage('l')
   }
 
-  function showCatalog(){
-    setPage('c')
-  }
-
-  function showInvoices(){
-    setPage('in')
+  function showHome(){
+    setPage('h')
   }
 
   // switch case will set element to new page when page changes
   // add new case to add new page
   let element = null
   switch (page) {
-    case 'i':
-      element = <Inventory key={'i'} inventory={inventory} updateInventory={updateInventory}/>
+    case 'l':
+      element = <Login key={'l'}/>
       break;
-    case 'c':
-      element = <Catalog key={'c'} catalog={catalog}/>
-      break;
-    case 'in':
-      element = <Invoices key={'in'} catalog={catalog} inventory={inventory} updateInventory={updateInventory}/>
+    case 'h':
+      element = <Home key={'h'}/>
       break;
     default:
-      element = <Inventory key={'i'}/>
+      element = <Home key={'h'}/>
       break;
   }
 
   return (
     <>
     <header>
-      <Header showInventory={showInventory} showCatalog={showCatalog} showInvoices={showInvoices}/>
+      <MainHeader showLogin={showLogin} showHome={showHome}/>
     </header>
     <div>
       {element}
