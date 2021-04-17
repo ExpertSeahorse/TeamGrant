@@ -1,5 +1,6 @@
 import React, { useRef, useState, useEffect } from 'react'
 import InvoiceList from './InvoiceList'
+import './Input_Fields.css'
 
 const LOCAL_STORAGE_KEY_INVOICES = 'invoiceDB'
 
@@ -101,14 +102,19 @@ export default function Invoices( props ) {
     <div>
       <label>Invoice ID: </label>
       <input ref={addInvoiceIDRef} type="text"/>
+        <br/>
       <label>Customer Name: </label>
-      <input ref={addCustNameRef} type="text"/>
+          <input ref={addCustNameRef} type="text" />
+          <br />
       <label> Product ID: </label>
-      <input ref={addProdIDRef} type="text"/>
+          <input ref={addProdIDRef} type="text" />
+          <br />
       <label> Quantity: </label>
-      <input ref={addQuantityRef} type="text"/>
+          <input ref={addQuantityRef} type="text" />
+          <br />
       <label> Complete</label>
-      <input ref={completedRef} type="checkbox" />
+          <input ref={completedRef} type="checkbox" />
+          <br />
       <button onClick={handleAddInvoice}>Add Invoice</button>
       <button onClick={handleClearInvoices}>Clear Invoices</button>
       <InvoiceList invoices={invoices} handleStatusChange={handleStatusChange}/>
