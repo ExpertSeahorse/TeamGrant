@@ -5,7 +5,17 @@ import './App.css';
 //import FetchInventory from "./components/FetchInventory";
 
 const api = axios.create({
-  baseURL: 'http://172.28.76.141:9000/'
+  /* Use this when only running locally, use the second IP address when using ZeroTier */
+  // baseURL: 'http://localhost:9000
+  /* ZeroTier IP */
+  baseURL: 'http://172.22.76.141:9000'
+  /* Local IP
+   * Allows access from machines not on local network */
+  // baseURL: 'http://192.168.254.11:9000'
+  /* Outward-facing IP
+   * Allows access from any machine
+   * NOTE: THIS CONNECTION CAN BE EXTREMELY SLOW AND UNRESPONSIVE */
+  // baseURL: 'http://47.197.14.142:9000'
 })
 
 let mode = true
@@ -285,34 +295,34 @@ class App extends Component {
                   <th rowSpan="2">Delete</th>
                 </tr>
                 <tr bgcolor="gray">
-                  <td> <center>
+                  <th> <center>
                     <button onClick={() => {this.sortTables(0,0)}}>↑</button>
                     <button onClick={() => {this.sortTables(0,1)}}>↓</button>
-                  </center> </td>
-                  <td><center>
+                  </center> </th>
+                  <th><center>
                     <button onClick={() => {this.sortTables(0,2)}}>↑</button>
                     <button onClick={() => {this.sortTables(0,3)}}>↓</button>
-                  </center></td>
-                  <td><center>
+                  </center></th>
+                  <th><center>
                     <button onClick={() => {this.sortTables(0,4)}}>↑</button>
                     <button onClick={() => {this.sortTables(0,5)}}>↓</button>
-                  </center></td>
-                  <td><center>
+                  </center></th>
+                  <th><center>
                     <button onClick={() => {this.sortTables(0,6)}}>↑</button>
                     <button onClick={() => {this.sortTables(0,7)}}>↓</button>
-                  </center></td>
-                  <td><center>
+                  </center></th>
+                  <th><center>
                     <button onClick={() => {this.sortTables(0,8)}}>↑</button>
                     <button onClick={() => {this.sortTables(0,9)}}>↓</button>
-                  </center></td>
-                  <td><center>
+                  </center></th>
+                  <th><center>
                     <button onClick={() => {this.sortTables(0,10)}}>↑</button>
                     <button onClick={() => {this.sortTables(0,11)}}>↓</button>
-                  </center></td>
-                  <td><center>
+                  </center></th>
+                  <th><center>
                     <button onClick={() => {this.sortTables(0,12)}}>↑</button>
                     <button onClick={() => {this.sortTables(0,13)}}>↓</button>
-                  </center></td>
+                  </center></th>
                 </tr>
                 {
                   this.state.items.map(item =>
@@ -407,30 +417,30 @@ class App extends Component {
                   <th rowSpan="2">Delete Order</th>
                 </tr>
                 <tr bgcolor="gray">
-                  <td><center>
+                  <th><center>
                     <button onClick={() => {this.sortTables(1,0)}}>↑</button>
                     <button onClick={() => {this.sortTables(1,1)}}>↓</button>
-                  </center></td>
-                  <td><center>
+                  </center></th>
+                  <th><center>
                     <button onClick={() => {this.sortTables(1,2)}}>↑</button>
                     <button onClick={() => {this.sortTables(1,3)}}>↓</button>
-                  </center></td>
-                  <td><center>
+                  </center></th>
+                  <th><center>
                     <button onClick={() => {this.sortTables(1,4)}}>↑</button>
                     <button onClick={() => {this.sortTables(1,5)}}>↓</button>
-                  </center></td>
-                  <td><center>
+                  </center></th>
+                  <th><center>
                     <button onClick={() => {this.sortTables(1,6)}}>↑</button>
                     <button onClick={() => {this.sortTables(1,7)}}>↓</button>
-                  </center></td>
-                  <td><center>
+                  </center></th>
+                  <th><center>
                     <button onClick={() => {this.sortTables(1,8)}}>↑</button>
                     <button onClick={() => {this.sortTables(1,9)}}>↓</button>
-                  </center></td>
-                  <td><center>
+                  </center></th>
+                  <th><center>
                     <button onClick={() => {this.sortTables(1,10)}}>↑</button>
                     <button onClick={() => {this.sortTables(1,11)}}>↓</button>
-                  </center></td>
+                  </center></th>
                 </tr>
                 {
                   this.state.items.map(item => <tr key={item.OID}>
