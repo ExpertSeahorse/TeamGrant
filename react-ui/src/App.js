@@ -71,35 +71,35 @@ class App extends Component {
     const trimClr = clr.trim()
     const trimMat = mats.trim()
     let res = await api.put('/addInv', { itemtype: `${typ}`, qnt: `${quant}`, price: `${prc}`, name: `${nme}`, color: `${trimClr}`, mat: `${trimMat}` } )
-    this.getInventory()
+    this.getSortedInventory(invSMode)
     console.log(res)
   }
 
   // Add new order
   addOrder = async (nme, id, qnt) => {
     let res = await api.put('/addOrder', { pid: `${id}`, qnt: `${qnt}`, name: `${nme}`})
-    this.getOrders()
+    this.getSortedOrders(ordSMode)
     console.log(res)
   }
 
   // Delete order
   delOrd = async (id) => {
     let res = await api.put('/delOrd', { oid: `${id}` })
-    this.getOrders()
+    this.getSortedOrders(ordSMode)
     console.log(res)
   }
 
   // Delete inventory item
   delInv = async (id) => {
     let res = await api.put('/delInv', { pid: `${id}` })
-    this.getInventory()
+    this.getSortedInventory(invSMode)
     console.log(res)
   }
 
   // Mark order Completed field as "true"
   completeOrder = async (id) => {
     let res = await api.put('/completeOrder', { oid: `${id}` })
-    this.getOrders()
+    this.getSortedOrders(ordSMode)
     console.log(res)
   }
 
@@ -109,17 +109,33 @@ class App extends Component {
   // Mode 3 = increase/decrease current value by given percentage of current value (e.g., given 50 do +50% of current stock)
   upInvStock = async(id, mode) => {
     const newStock = prompt('Enter the item\'s new stock:')
-    let res = await api.put('/upInvStock', { mode: `${mode}`, pid: `${id}`,qnt: `${newStock}`})
-    this.getInventory()
-    console.log(res)
+    if (newStock === "") {
+      // Do nothing
+    }
+    else if (newStock) {
+      let res = await api.put('/upInvStock', { mode: `${mode}`, pid: `${id}`,qnt: `${newStock}`})
+      this.getSortedInventory(invSMode)
+      console.log(res)
+    }
+    else {
+      // Do nothing
+    }
   }
 
   // Update inventory item price
   upInvPrice = async(id, mode) => {
     const newPrice = prompt('Enter the item\'s new price:')
-    let res = await api.put('/upInvPrice', { mode : `${mode}`, pid: `${id}`, prc: `${newPrice}`})
-    this.getInventory()
-    console.log(res)
+    if (newPrice === "") {
+      // Do nothing
+    }
+    else if (newPrice) {
+      let res = await api.put('/upInvPrice', { mode : `${mode}`, pid: `${id}`, prc: `${newPrice}`})
+      this.getSortedInventory(invSMode)
+      console.log(res)
+    }
+    else {
+      // Do nothing
+    }
   }
 
   // Handler for changing new inventory item form values
@@ -175,9 +191,6 @@ class App extends Component {
     this.newOrdItem.newOQnt = 0
   }
 
-  // Up arrows:   ↑   Alt+24
-  // Down arrows: ↓   Alt+25
-
   // Handle table sortin queries
   sortTables = (whichTable, newMode) => {
     if (whichTable === 0) {
@@ -196,28 +209,26 @@ class App extends Component {
       return (
         <div className="App">
           <h1><strong>Inventory & Order Management</strong></h1>
+          <h2>Available Pages</h2>
           <p>
-            <h2>Available Pages</h2>
             <button onClick={() => {this.getSortedInventory(invSMode)}}>Inventory</button>
             <button onClick={() => {this.getSortedOrders(ordSMode)}}>Orders</button>
           </p>
-          <p>
-            <center><h2>Insert New Inventory Item</h2></center>
-          </p>
+          <center><h2>Insert New Inventory Item</h2></center>
           <form id="newInvForm" onReset={this.resetForm}>
             <label>
               Name:&ensp;
               <input
                 name="newName"
                 type="text"
-                onChange={this.invInputChange} />
+                onInput={this.invInputChange} />
             </label>
             <label>
               &ensp;Type:&ensp;
               <input
                 name="newType"
                 type="text"
-                onChange={this.invInputChange} />
+                onInput={this.invInputChange} />
             </label>
             <label>
               &ensp;Price:&ensp;
@@ -227,7 +238,7 @@ class App extends Component {
                 min="0.00"
                 step="0.01"
                 precision={2}
-                onChange={this.invInputChange} />
+                onInput={this.invInputChange} />
             </label>
             <label>
               <br/>Quantity:&ensp;
@@ -236,21 +247,21 @@ class App extends Component {
               type="number"
               min="0"
               step="1"
-              onChange={this.invInputChange} />
+              onInput={this.invInputChange} />
             </label>
             <label>
               &ensp;Colors:&ensp;
               <input
                 name="newClr"
                 type="text"
-                onChange={this.invInputChange} />
+                onInput={this.invInputChange} />
             </label>
             <label>
               &ensp;Materials:&ensp;
               <input
                 name="newMat"
                 type="text"
-                onChange={this.invInputChange} />
+                onInput={this.invInputChange} />
             </label>
             <br/>
             <br/>
@@ -261,23 +272,19 @@ class App extends Component {
           <center>
             <table border="1px solid black" text-align="center">
               <tbody>
-                <tr>
-                  <th>
-                    Product ID
-                  </th>
-                  <th>
-                    Name
-                  </th>
+                <tr bgcolor="gray">
+                  <th>Product ID</th>
+                  <th>Name</th>
                   <th>Type</th>
                   <th>Price Per Item</th>
                   <th>Quantity</th>
                   <th>Color</th>
                   <th>Material</th>
-                  <th>Change Quantity</th>
-                  <th>Change Price</th>
-                  <th>Delete</th>
+                  <th rowSpan="2">Change Quantity</th>
+                  <th rowSpan="2">Change Price</th>
+                  <th rowSpan="2">Delete</th>
                 </tr>
-                <tr>
+                <tr bgcolor="gray">
                   <td> <center>
                     <button onClick={() => {this.sortTables(0,0)}}>↑</button>
                     <button onClick={() => {this.sortTables(0,1)}}>↓</button>
@@ -345,21 +352,19 @@ class App extends Component {
       return (
       <div className="App">
           <h1><strong>Inventory & Order Management</strong></h1>
+          <h2>Available Pages</h2>
           <p>
-            <h2>Available Pages</h2>
             <button onClick={() => {this.getSortedInventory(invSMode)}}>Inventory</button>
             <button onClick={() => {this.getSortedOrders(ordSMode)}}>Orders</button>
           </p>
-          <p>
-            <center><h2>Create New Order</h2></center>
-          </p>
+          <center><h2>Create New Order</h2></center>
           <form id="newOrdForm" onReset={this.resetForm}>
             <label>
               Name:&ensp;
               <input
                 name="newCName"
                 type="text"
-                onChange={this.ordInputChange} />
+                onInput={this.ordInputChange} />
             </label>
             <label>
               &ensp;Product ID:&ensp;
@@ -368,7 +373,7 @@ class App extends Component {
                 type="number"
                 min="0"
                 step="1"
-                onChange={this.ordInputChange} />
+                onInput={this.ordInputChange} />
             </label>
             <label>
               &ensp;Order Quantity:&ensp;
@@ -377,7 +382,7 @@ class App extends Component {
                 type="number"
                 min="0"
                 step="1"
-                onChange={this.ordInputChange} />
+                onInput={this.ordInputChange} />
             </label>
             <br/>
             <br/>
@@ -391,17 +396,17 @@ class App extends Component {
           <center>
             <table border="1px solid black" text-align="center">
               <tbody>
-                <tr>
+                <tr bgcolor="gray">
                   <th>Order ID</th>
                   <th>Product ID</th>
                   <th>Quantity</th>
                   <th>Customer Name</th>
                   <th>Order Created</th>
                   <th>Completion Status</th>
-                  <th>Complete Order</th>
-                  <th>Delete Order</th>
+                  <th rowSpan="2">Complete Order</th>
+                  <th rowSpan="2">Delete Order</th>
                 </tr>
-                <tr>
+                <tr bgcolor="gray">
                   <td><center>
                     <button onClick={() => {this.sortTables(1,0)}}>↑</button>
                     <button onClick={() => {this.sortTables(1,1)}}>↓</button>
