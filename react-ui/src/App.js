@@ -157,7 +157,8 @@ class App extends Component {
   }
 
   // Handler for submitting a new inventory item form
-  handleSubmitInv = () => {
+  handleSubmitInv = (event) => {
+    event.preventDefault()
     this.addInv(this.newInvItem.newName, this.newInvItem.newType, this.newInvItem.newPrice, this.newInvItem.newQnt, this.newInvItem.newClr, this.newInvItem.newMat)
   }
 
@@ -170,7 +171,8 @@ class App extends Component {
   }
 
   // Handler for submitting a new order form
-  handleSubmitOrd = () => {
+  handleSubmitOrd = (event) => {
+    event.preventDefault()
     this.addOrder(this.newOrdItem.newCName, this.newOrdItem.newOPID, this.newOrdItem.newOQnt)
   }
 
@@ -225,7 +227,7 @@ class App extends Component {
             <button onClick={() => {this.getSortedOrders(ordSMode)}}>Orders</button>
           </p>
           <center><h2>Insert New Inventory Item</h2></center>
-          <form id="newInvForm" onReset={this.resetForm}>
+          <form id="newInvForm" onReset={this.resetForm} onSubmit={this.handleSubmitInv}>
             <label>
               Name:&ensp;
               <input
@@ -276,8 +278,9 @@ class App extends Component {
             <br/>
             <br/>
             <input type="reset" value="Reset Form" />
+            <br/>
+            <input type="submit" value="Add to Inventory" />
           </form>
-          <button onClick={this.handleSubmitInv}>Add to Inventory</button>
           <center><h2>Inventory</h2></center>
           <center>
             <table border="1px solid black" text-align="center">
@@ -368,7 +371,7 @@ class App extends Component {
             <button onClick={() => {this.getSortedOrders(ordSMode)}}>Orders</button>
           </p>
           <center><h2>Create New Order</h2></center>
-          <form id="newOrdForm" onReset={this.resetForm}>
+          <form id="newOrdForm" onReset={this.resetForm} onSubmit={this.handleSubmitOrd}>
             <label>
               Name:&ensp;
               <input
@@ -398,10 +401,9 @@ class App extends Component {
             <br/>
             <br/>
             <input type="reset" value="Reset Form"/>
+            <br/>
+            <input type="submit" value="Create Order" />
           </form>
-          <center>
-            <button onClick={this.handleSubmitOrd}>Create Order</button>
-          </center>
           <center><h2>Orders</h2></center>
           <center>
             <table border="1px solid black" text-align="center">
