@@ -1,5 +1,4 @@
-import React, { useState } from 'react'
-import { Redirect } from "react-router-dom";
+import React from 'react'
 import './Login.css'
 
 class Login extends React.Component{
@@ -14,7 +13,7 @@ class Login extends React.Component{
     e.preventDefault();
     var username = e.target.elements.username.value;
     var password = e.target.elements.password.value;
-    if(username == 'admin' && password == 'admin123'){
+    if(username === 'admin' && password === 'admin123'){
       this.props.history.push('/App');
     }else{
       this.setState({
@@ -29,7 +28,7 @@ let format = {
 };
   return (
     <div class="login-box">
-    <span style={format}>{this.state.err != ''? this.state.err: ''}</span>
+    <span style={format}>{this.state.err !== ''? this.state.err: ''}</span>
   <h2>Login</h2>
   <form method="post" onSubmit={this.login.bind(this)}>
     <div class="user-box">
