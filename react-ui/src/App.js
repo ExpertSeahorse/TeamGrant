@@ -6,7 +6,7 @@ import './App.css';
 
 const api = axios.create({
   /* Use this when only running locally, use the second IP address when using ZeroTier */
-  // baseURL: 'http://localhost:9000
+  // baseURL: 'http://localhost:9000'
   /* ZeroTier IP */
   baseURL: 'http://172.22.76.141:9000'
   /* Local IP
@@ -78,18 +78,30 @@ class App extends Component {
 
   // Add new inventory item
   addInv = async (nme, typ, prc, quant, clr, mats) => {
-    const trimClr = clr.trim()
-    const trimMat = mats.trim()
-    let res = await api.put('/addInv', { itemtype: `${typ}`, qnt: `${quant}`, price: `${prc}`, name: `${nme}`, color: `${trimClr}`, mat: `${trimMat}` } )
-    this.getSortedInventory(invSMode)
-    console.log(res)
+    if (nme === "" || typ === "" || prc === "" || quant === "" || clr === "" || mats === "") {
+      alert('Error: all form fields must be filled before submitting')
+      console.log('Error adding to inventory: not all form fields are filled')
+    }
+    else {
+      const trimClr = clr.trim()
+      const trimMat = mats.trim()
+      let res = await api.put('/addInv', { itemtype: `${typ}`, qnt: `${quant}`, price: `${prc}`, name: `${nme}`, color: `${trimClr}`, mat: `${trimMat}` } )
+      this.getSortedInventory(invSMode)
+      console.log(res)
+    }
   }
 
   // Add new order
   addOrder = async (nme, id, qnt) => {
-    let res = await api.put('/addOrder', { pid: `${id}`, qnt: `${qnt}`, name: `${nme}`})
-    this.getSortedOrders(ordSMode)
-    console.log(res)
+    if (nme === "" || id === "" || qnt === "") {
+      alert('Error: all form fields must be filled before submitting')
+      console.log('Error adding to inventory: not all form fields are filled')
+    }
+    else {
+      let res = await api.put('/addOrder', { pid: `${id}`, qnt: `${qnt}`, name: `${nme}`})
+      this.getSortedOrders(ordSMode)
+      console.log(res)
+    }
   }
 
   // Delete order
