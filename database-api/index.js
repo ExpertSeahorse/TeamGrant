@@ -16,7 +16,6 @@ app.use(
 )
 
 app.get('/', (request, response) => {
-  //response.json({ info: 'This is the Express-PostGreSQL API server. You can directly access the JSON output of the Inventory and Orders tables at /inventory and /orders.' })
   response.send('This is the Express-PostGreSQL API server. You can directly access the JSON output of the Inventory and Orders tables at /inventory and /orders.');
 })
 
